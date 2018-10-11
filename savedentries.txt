@@ -1,0 +1,4 @@
+hello==hello==Wed Oct 10 17:51:49 PDT 2018==normal
+hello==hello==Wed Oct 10 17:14:29 PDT 2018==hello
+COOL!!==Today was really cool!!==Wed Oct 10 15:26:44 PDT 2018==cool
+COOL 2==This day was also really cool!==Wed Oct 10 15:27:08 PDT 2018==cool

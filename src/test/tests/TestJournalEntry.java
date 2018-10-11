@@ -1,55 +1,56 @@
 package tests;
 
+import model.Entry;
 import model.JournalEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestJournalEntry {
     Date date = new Date();
-    private JournalEntry j;
+    private Entry j;
 
     @BeforeEach
     public void runBefore(){
-        j = new JournalEntry("", date, "");
+        j = new JournalEntry("", "");
     }
 
-
-    // Test that the journal entry is classified as written
     @Test
-    public void testMakeWritten(){
-        assertFalse(j.getWritten());
-        j.flipWritten();
-        assertTrue(j.getWritten());
-    }
-
-    // Test that the journal entry is declassified as written
-    @Test
-    public void testMakeUnWritten(){
-        j.setWritten(true);
-        assertTrue(j.getWritten());
-        j.flipWritten();
-        assertFalse(j.getWritten());
-    }
-
-    // Test that isWritten produces what is expected when the entry is empty
-    @Test
-    public void testisWrittenEmpty(){
+    public void testisWrittenFalse(){
         j.setEntry("");
-        j.isWritten();
-        assertFalse(j.getWritten());
+        assertFalse(j.isWritten(j.getEntry()));
+
     }
 
-    // Test that isWritten produces what is expected when there is a valid entry
     @Test
-    public void testisWrittenFull(){
-        j.setEntry("Hello world");
-        j.isWritten();
-        assertTrue(j.getWritten());
+    public void testisWrittenTrue(){
+        j.setEntry("Hello there!");
+        assertTrue(j.isWritten(j.getEntry()));
+    }
+
+    @Test
+    public void testCheckLengthEmpty(){
+        j.setEntry("");
+        assertTrue(j.checkLength(j.getEntry()));
+    }
+
+    @Test
+    public void testCheckLengthShortEnough(){
+        j.setEntry("Hello World");
+        assertTrue(j.checkLength(j.getEntry()));
+    }
+
+    @Test
+    public void testCheckLengthTooLong(){
+        j.setEntry("Hello World this is a sample entry that is too long " +
+                "it should not pass today my day was bad or good or I don't know" +
+                "more words more words more words");
+        assertFalse(j.checkLength(j.getEntry()));
     }
 
 
