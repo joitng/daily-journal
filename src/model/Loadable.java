@@ -7,5 +7,5 @@ import java.text.ParseException;
 public interface Loadable {
 
     // EFFECTS: loads old entries
-    void loadEntries(String filename) throws IOException, ParseException;
+    void loadEntries(String filename);
 }

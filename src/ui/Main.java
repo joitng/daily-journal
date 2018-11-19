@@ -1,52 +1,69 @@
 package ui;
 
-import model.DailyJournal;
-import model.Entry;
-import model.JournalEntry;
-import model.SpecialEntry;
+import exceptions.SameDateException;
+import model.*;
+import org.json.JSONException;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
     private Scanner scanner = new Scanner(System.in);
     private DailyJournal dj = new DailyJournal();
+    private DateManager dm = new DateManager();
+    private ReadWebPage web = new ReadWebPage();
 
-    public Main() throws IOException, ParseException {
+    public Main() {
         String operation = "";
         while (true) {
             Entry journal = new JournalEntry("", "");
             SpecialEntry special = new SpecialEntry("","");
+            web.parse();
             System.out.println("What would you like to do?");
             System.out.println("[1] Create a new regular journal entry");
             System.out.println("[2] Create a new special journal entry");
             System.out.println("[3] View a special journal entry category");
-            System.out.println("[4] Browse journal entries");
+            System.out.println("[4] Browse");
             System.out.println("QUIT");
             operation = scanner.nextLine();
             if (operation.equals("1")) {
-                create(journal);
-                dj.addEntry(journal);
-                view(journal);
-                dj.saveEntries("savedentries.txt");
+
+                try{
+                    create(journal);
+                    dj.addEntry(journal);
+                    view(journal);
+                    dj.saveEntries("savedentries.txt");
+                } catch (SameDateException e) {
+                    System.out.println("Sorry, you can't make two journal entries on the same day!");
+                } finally {
+                    System.out.println("Have a nice day!");
+                }
             }
 
             if (operation.equals("2")){
-                create(special);
-                dj.addEntry(special);
-                System.out.println("How would you like to categorize this special entry?");
-                String specialTag = scanner.nextLine();
-                special.setTag(specialTag);
-                view(special);
-                dj.saveEntries("savedentries.txt");
+                try {
+                    create(special);
+                    dj.addEntry(special);
+                    System.out.println("How would you like to categorize this special entry?");
+                    String specialTag = scanner.nextLine();
+                    special.setTag(specialTag);
+                    view(special);
+                    dj.saveEntries("savedentries.txt");
+                } catch (SameDateException e) {
+                    System.out.println("Sorry, you can't make two journal entries on the same day!");
+                } finally {
+                    System.out.println("Have a nice day!");
+                }
 
             }
 
             if (operation.equals("3")){
-                ArrayList<String> specialEntries = findEntry();
+                System.out.println("Tell us the name of the category you'd like to view!");
+                String op = scanner.nextLine();
                 try{
+                    ArrayList<String> specialEntries = special.findEntry(op);
                     for (String s: specialEntries) {
                         System.out.println(s);
 
@@ -59,8 +76,6 @@ public class Main {
 
             }
             if (operation.equals("4")){
-                // Lets you view all your journal entries
-                // (hopefully in calendar mode)
             }
             else if (operation.equals("QUIT")) {
                 break;
@@ -69,28 +84,26 @@ public class Main {
         System.out.println("Goodbye! See you tomorrow!");
     }
 
-    // MODIFIES: journal
-    // EFFECTS: adds a title and an entry to the journalEntry
-    private void create(Entry entry){
+    public void create(Entry e) throws SameDateException {
+        Date date = new Date();
+        if (dm.sameDate(date, dm.mostRecentDate())){
+            throw new SameDateException();
+        }
         System.out.println("What do you want to call this journal entry?");
         String titleReply = scanner.nextLine();
-        entry.setTitle(titleReply);
+        e.setTitle(titleReply);
+        writeAndSave(e);
+    }
+
+    private void writeAndSave(Entry e){
+        e.addObserver(dj);
         System.out.println("Write about your day!");
         String entryReply = scanner.nextLine();
-        if (entry.checkLength(entryReply)){
-            System.out.println("Your entry today has been entered.");
-            entry.setEntry(entryReply);
-        }
-        else {
-            while (!entry.checkLength(entryReply)){
-                System.out.println("Please edit! Your entry was too long.");
-                System.out.println("Write about your day!");
-                entryReply = scanner.nextLine();
-                if (entry.checkLength(entryReply)) {
-                    System.out.println("Your entry today has been entered.");
-                    entry.setEntry(entryReply);
-                }
-            }
+        if (!e.checkLength(entryReply)){
+            e.setEntry(entryReply);
+        } else {
+            System.out.println("Please rewrite! Your entry was too long.");
+            writeAndSave(e);
         }
     }
 
@@ -107,23 +120,7 @@ public class Main {
 
     }
 
-    public ArrayList<String> findEntry() throws IOException, ParseException {
-        System.out.println("Tell us the name of the category you'd like to view!");
-        String op = scanner.nextLine();
-        dj.loadEntries("savedentries.txt");
-        ArrayList<Entry> allEntries = dj.getAllEntries();
-        ArrayList<String> specialEntries = new ArrayList<>();
-        for (Entry j: allEntries){
-            if (op.equals(j.getTag())){
-                specialEntries.add(j.getEntry());
-            }
-
-        }
-
-        return specialEntries;
-    }
-
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) {
         new Main();
 
     }

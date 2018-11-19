@@ -1,5 +1,9 @@
 package model;
 
+import exceptions.NoSuchTagException;
+
+import java.util.ArrayList;
+
 public class SpecialEntry extends Entry{
 
 
@@ -7,16 +11,32 @@ public class SpecialEntry extends Entry{
         super(title, entry);
     }
 
-    // EFFECTS: returns false if entry is over 300 characters, true otherwise
+    // EFFECTS: returns true if entry is over 300 characters, false otherwise
     @Override
     public boolean checkLength(String entry) {
         if (entry.length() > 300){
-            return false;
+            return true;
         }
 
         else {
-            return true;
+            return false;
         }
+    }
+
+    public ArrayList<String> findEntry(String op) throws NoSuchTagException {
+        DailyJournal dj = new DailyJournal();
+        dj.loadEntries("savedentries.txt");
+        ArrayList<Entry> allEntries = dj.getAllEntries();
+        ArrayList<String> specialEntries = new ArrayList<>();
+        for (Entry j: allEntries){
+            if (op.equals(j.getTag())){
+                specialEntries.add(j.getEntry());
+            }
+            else {throw new NoSuchTagException();}
+
+        }
+
+        return specialEntries;
     }
 
 

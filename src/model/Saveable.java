@@ -7,5 +7,5 @@ public interface Saveable {
 
     // MODIFIES: savedentries.txt
     // EFFECTS: saves the new entry
-    void saveEntries(String filename) throws IOException, ParseException;
+    void saveEntries(String filename);
 }

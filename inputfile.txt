@@ -1,2 +1,2 @@
-loadtest1==entry==Fri Oct 12 00:00:00 PDT 2018
-loadtest2====Fri Oct 12 01:00:00 PDT 2018
+loadtest1==entry==Fri Oct 12 00:00:00 PDT 2018==normal
+loadtest2====Fri Oct 12 01:00:00 PDT 2018==normal

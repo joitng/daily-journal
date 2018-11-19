@@ -13,15 +13,15 @@ public class JournalEntry extends Entry {
         this.tag = "normal";
     }
 
-    // EFFECTS: returns false if entry is over 150 characters, true otherwise
+    // EFFECTS: returns true if entry is over 150 characters, false otherwise
     @Override
     public boolean checkLength(String entry){
         if (entry.length() > 150){
-            return false;
+            return true;
         }
 
         else {
-            return true;
+            return false;
         }
     }
 

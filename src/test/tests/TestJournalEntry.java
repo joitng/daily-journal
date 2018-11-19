@@ -7,9 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestJournalEntry {
     Date date = new Date();
@@ -17,32 +15,20 @@ public class TestJournalEntry {
 
     @BeforeEach
     public void runBefore(){
+
         j = new JournalEntry("", "");
-    }
-
-    @Test
-    public void testisWrittenFalse(){
-        j.setEntry("");
-        assertFalse(j.isWritten(j.getEntry()));
-
-    }
-
-    @Test
-    public void testisWrittenTrue(){
-        j.setEntry("Hello there!");
-        assertTrue(j.isWritten(j.getEntry()));
     }
 
     @Test
     public void testCheckLengthEmpty(){
         j.setEntry("");
-        assertTrue(j.checkLength(j.getEntry()));
+        assertFalse(j.checkLength(j.getEntry()));
     }
 
     @Test
     public void testCheckLengthShortEnough(){
         j.setEntry("Hello World");
-        assertTrue(j.checkLength(j.getEntry()));
+        assertFalse(j.checkLength(j.getEntry()));
     }
 
     @Test
