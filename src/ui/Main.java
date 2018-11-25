@@ -25,7 +25,6 @@ public class Main {
             System.out.println("[1] Create a new regular journal entry");
             System.out.println("[2] Create a new special journal entry");
             System.out.println("[3] View a special journal entry category");
-            System.out.println("[4] Browse");
             System.out.println("QUIT");
             operation = scanner.nextLine();
             if (operation.equals("1")) {
@@ -74,8 +73,6 @@ public class Main {
                 }
 
 
-            }
-            if (operation.equals("4")){
             }
             else if (operation.equals("QUIT")) {
                 break;
