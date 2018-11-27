@@ -1,4 +1,7 @@
-package ui;
+package ui.panels;
+
+import ui.DetailEvent;
+import ui.DetailListener;
 
 import javax.swing.*;
 import javax.swing.event.EventListenerList;

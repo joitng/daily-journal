@@ -1,15 +1,15 @@
-package ui;
+package ui.panels;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class StartFrame {
+public class StartPanel {
     private JPanel startPanel;
     private JFrame frame;
 
-    public StartFrame(JFrame curr){
+    public StartPanel(JFrame curr){
         frame = curr;
 
         startPanel = new JPanel();
@@ -32,7 +32,7 @@ public class StartFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.remove(startPanel);
-                frame.setContentPane(new CreateRegularFrame(frame).getPanel());
+                frame.setContentPane(new CreateRegularPanel(frame).getPanel());
                 frame.setVisible(true);
             }
         });
@@ -41,7 +41,7 @@ public class StartFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.remove(startPanel);
-                frame.setContentPane(new CreateSpecialFrame(frame).getPanel());
+                frame.setContentPane(new CreateSpecialPanel(frame).getPanel());
                 frame.setVisible(true);
             }
         });
@@ -50,7 +50,7 @@ public class StartFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.remove(startPanel);
-                frame.setContentPane(new ViewSpecialFrame(frame).getPanel());
+                frame.setContentPane(new ViewSpecialPanel(frame).getPanel());
                 frame.setVisible(true);
             }
         });

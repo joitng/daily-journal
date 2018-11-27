@@ -1,7 +1,9 @@
-package ui;
+package ui.panels;
 
 import exceptions.NoSuchTagException;
 import model.SpecialEntry;
+import ui.DetailEvent;
+import ui.DetailListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,15 +11,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class ViewSpecialFrame{
+public class ViewSpecialPanel {
     private DetailsPanel detailsPanel;
     private JFrame frame;
     private JPanel viewSpec;
     private SpecialEntry se;
 
-    // TODO: implement back button
 
-    public ViewSpecialFrame(JFrame curr){
+    public ViewSpecialPanel(JFrame curr){
 
         frame = curr;
 
@@ -52,7 +53,7 @@ public class ViewSpecialFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.remove(viewSpec);
-                frame.setContentPane(new StartFrame(frame).getPanel());
+                frame.setContentPane(new StartPanel(frame).getPanel());
                 frame.setVisible(true);
             }
         });
