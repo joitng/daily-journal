@@ -10,6 +10,8 @@ public class StartPanel {
     private JFrame frame;
 
     public StartPanel(JFrame curr){
+        // TODO: pop-up for same date exception
+
         frame = curr;
 
         startPanel = new JPanel();
@@ -20,7 +22,7 @@ public class StartPanel {
         // Set layout manager
         startPanel.setLayout(new BorderLayout());
 
-        startPanel.setBackground(Color.orange);
+        startPanel.setBackground(Color.pink);
 
         JButton createRegButton = new JButton("Create a new regular journal entry");
         JButton createSpecButton = new JButton("Create a new special journal entry");

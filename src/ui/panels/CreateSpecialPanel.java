@@ -2,28 +2,33 @@ package ui.panels;
 
 import model.DailyJournal;
 import model.JournalEntry;
+import model.SpecialEntry;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CreateRegularPanel {
-    private JPanel regPanel;
+public class CreateSpecialPanel {
+    private JPanel specPanel;
     private JFrame frame;
-    private JournalEntry journal;
+    private SpecialEntry journal;
 
-    public CreateRegularPanel(JFrame curr){
+    public CreateSpecialPanel(JFrame curr){
+
         // TODO: If possible, character counter
         // TODO: pop-up screens for character counter & no input
 
         frame = curr;
 
-        regPanel = new JPanel();
+        specPanel = new JPanel();
+        specPanel.setBackground(Color.yellow);
 
-        regPanel.setBorder(BorderFactory.createTitledBorder("Tell me about your day!"));
+        specPanel.setBorder(BorderFactory.createTitledBorder("Spill the beans!"));
 
         JTextField nameField = new JTextField(30);
+        JTextField tag = new JTextField(30);
+        JLabel tagLabel = new JLabel("Tag:");
         JTextArea entryArea = new JTextArea(15,30);
         JLabel nameLabel = new JLabel("Title:");
         JLabel entryLabel = new JLabel("Entry: ");
@@ -35,29 +40,28 @@ public class CreateRegularPanel {
             public void actionPerformed(ActionEvent e) {
                 String title = nameField.getText();
                 String entry = entryArea.getText();
-                journal = new JournalEntry(title,entry);
+                journal = new SpecialEntry(title,entry);
+                journal.setTag(tag.getText());
                 DailyJournal dj = journal.getDj();
                 dj.addEntry(journal);
                 dj.saveEntries("savedentries.txt");
 
-                frame.remove(regPanel);
+                frame.remove(specPanel);
                 frame.setContentPane(new SubmittedPanel(frame).getPanel());
                 frame.setVisible(true);
-
             }
         });
 
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.remove(regPanel);
+                frame.remove(specPanel);
                 frame.setContentPane(new StartPanel(frame).getPanel());
                 frame.setVisible(true);
             }
         });
 
-        regPanel.setBackground(Color.cyan);
-        regPanel.setLayout(new GridBagLayout());
+        specPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gc = new GridBagConstraints();
 
@@ -67,26 +71,30 @@ public class CreateRegularPanel {
 
         gc.gridx = 0;
         gc.gridy = 1;
-        regPanel.add(nameLabel,gc);
+        specPanel.add(nameLabel,gc);
 
         gc.gridy = 2;
-        regPanel.add(entryLabel,gc);
+        specPanel.add(tagLabel,gc);
+
+        gc.gridy = 3;
+        specPanel.add(entryLabel,gc);
 
         gc.gridx = 1;
         gc.gridy = 1;
-        regPanel.add(nameField, gc);
+        specPanel.add(nameField, gc);
 
         gc.gridy = 2;
-        regPanel.add(entryArea, gc);
+        specPanel.add(tag,gc);
 
         gc.gridy = 3;
-        regPanel.add(submitBtn, gc);
+        specPanel.add(entryArea, gc);
 
         gc.gridy = 4;
-        regPanel.add(backButton,gc);
+        specPanel.add(submitBtn, gc);
 
-
+        gc.gridy = 5;
+        specPanel.add(backButton,gc);
     }
 
-    public JPanel getPanel(){ return regPanel;}
+    public JPanel getPanel(){ return specPanel;}
 }

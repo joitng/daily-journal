@@ -9,12 +9,14 @@ public abstract class Entry extends Observable {
     protected String entry;
     protected String tag;
     private DateManager dm;
+    private DailyJournal dj;
 
     public Entry(String title, String entry) {
         this.title = title;
         this.date = new Date();
         this.entry = entry;
         dm = new DateManager();
+        dj = new DailyJournal();
     }
 
     // EFFECTS: returns the title of the journal entry
@@ -57,6 +59,10 @@ public abstract class Entry extends Observable {
     // EFFECTS: gets the special tag
     public String getTag(){
         return tag;
+    }
+
+    public DailyJournal getDj() {
+        return dj;
     }
 
     // EFFECTS: returns false if entry is too long, false otherwise

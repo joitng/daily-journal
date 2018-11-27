@@ -21,7 +21,7 @@ public class DetailsPanel extends JPanel {
 
         setBorder(BorderFactory.createTitledBorder("View a special category!"));
 
-        setBackground(Color.pink);
+        setBackground(Color.orange);
 
         JLabel title = new JLabel("What category would you like to view?");
 
