@@ -32,8 +32,11 @@ public class SpecialEntry extends Entry{
             if (op.equals(j.getTag())){
                 specialEntries.add(j.getEntry());
             }
-            else {throw new NoSuchTagException();}
 
+        }
+
+        if(specialEntries.size() == 0){
+            throw new NoSuchTagException();
         }
 
         return specialEntries;

@@ -1,53 +1,61 @@
 package ui;
 
-import model.JournalEntry;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
-public class StartFrame extends JFrame {
+public class StartFrame {
+    private JPanel startPanel;
+    private JFrame frame;
 
-    public StartFrame(String title){
-        super(title);
+    public StartFrame(JFrame curr){
+        frame = curr;
+
+        startPanel = new JPanel();
 
         JLabel startLabel = new JLabel("What would you like to do?");
 
 
         // Set layout manager
-        setLayout(new BorderLayout());
+        startPanel.setLayout(new BorderLayout());
 
-        getContentPane().setBackground(Color.orange);
+        startPanel.setBackground(Color.orange);
 
         JButton createRegButton = new JButton("Create a new regular journal entry");
         JButton createSpecButton = new JButton("Create a new special journal entry");
         JButton viewSpecCategory = new JButton("View a special journal entry category");
 
+
         createRegButton.addActionListener(new ActionListener(){
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                frame.remove(startPanel);
+                frame.setContentPane(new CreateRegularFrame(frame).getPanel());
+                frame.setVisible(true);
             }
         });
 
         createSpecButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                frame.remove(startPanel);
+                frame.setContentPane(new CreateSpecialFrame(frame).getPanel());
+                frame.setVisible(true);
             }
         });
 
         viewSpecCategory.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                frame.remove(startPanel);
+                frame.setContentPane(new ViewSpecialFrame(frame).getPanel());
+                frame.setVisible(true);
             }
         });
 
-        setLayout(new GridBagLayout());
+        startPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gc = new GridBagConstraints();
 
@@ -56,16 +64,20 @@ public class StartFrame extends JFrame {
         gc.weighty = 0.5;
         gc.gridx = 0;
         gc.gridy = 0;
-        add(startLabel, gc);
+        startPanel.add(startLabel, gc);
 
         gc.gridy = 1;
-        add(createRegButton, gc);
+        startPanel.add(createRegButton, gc);
 
         gc.gridy = 2;
-        add(createSpecButton, gc);
+        startPanel.add(createSpecButton, gc);
 
         gc.gridy = 3;
-        add(viewSpecCategory, gc);
+        startPanel.add(viewSpecCategory, gc);
 
+    }
+
+    public JPanel getPanel(){
+        return startPanel;
     }
 }

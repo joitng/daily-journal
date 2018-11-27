@@ -1,24 +1,41 @@
 package ui;
 
 import javax.swing.*;
+import javax.swing.event.EventListenerList;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DetailsPanel extends JPanel {
+    JButton backBtn;
+
+    private EventListenerList listenerList = new EventListenerList();
 
     public DetailsPanel(){
         Dimension size = getPreferredSize();
-        size.width = 250;
+        size.width = 300;
         setPreferredSize(size);
 
-        setBorder(BorderFactory.createTitledBorder("Other things you can do"));
+        setBorder(BorderFactory.createTitledBorder("View a special category!"));
 
-        JLabel nameLabel = new JLabel("Name: ");
-        JLabel titleLabel = new JLabel("Title: ");
+        setBackground(Color.pink);
 
-        JTextField nameField = new JTextField(10);
-        JTextField titleField = new JTextField(10);
+        JLabel title = new JLabel("What category would you like to view?");
 
-        JButton addBtn = new JButton("Add");
+        final JTextField textField = new JTextField(15);
+
+        JButton addBtn = new JButton("Show me what I've written!");
+
+        backBtn = new JButton("Back to main menu");
+
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String categoryName = textField.getText();
+
+                fireDetailEvent(new DetailEvent(this,categoryName));
+            }
+        });
 
         setLayout(new GridBagLayout());
 
@@ -26,36 +43,52 @@ public class DetailsPanel extends JPanel {
 
         // First column
 
-        gc.anchor = GridBagConstraints.LINE_END;
+        gc.anchor = GridBagConstraints.PAGE_START;
         gc.weightx = 0.5;
-        gc.weighty = 0.5;
+        gc.weighty = 1;
 
-        gc.gridx = 0;
+        gc.gridx = 1;
         gc.gridy = 0;
-
-        add(nameLabel, gc);
-
-        gc.gridx = 0;
-        gc.gridy = 1;
-        add(titleLabel, gc);
+        add(title, gc);
 
         // Second column
-        gc.anchor = GridBagConstraints.LINE_START;
-        gc.gridx = 1;
-        gc.gridy = 0;
-        add(nameField, gc);
-
         gc.gridx = 1;
         gc.gridy = 1;
-        add(titleLabel,gc);
+        add(textField, gc);
 
         // Final row
         gc.weighty = 10;
 
-        gc.anchor = GridBagConstraints.FIRST_LINE_START;
         gc.gridx = 1;
         gc.gridy = 2;
         add(addBtn, gc);
 
+        gc.weighty = 30;
+        gc.gridx = 1;
+        gc.gridy = 5;
+        add(backBtn, gc);
+
+    }
+
+    public void fireDetailEvent(DetailEvent event){
+        Object[] listeners = listenerList.getListenerList();
+
+        for(int i=0; i < listeners.length; i += 2){
+            if(listeners[i] == DetailListener.class){
+                ((DetailListener)listeners[+1]).detailEventOccurred(event);
+            }
+        }
+    }
+
+    public JButton getBackBtn() {
+        return backBtn;
+    }
+
+    public void addDetailListener(DetailListener listener){
+        listenerList.add(DetailListener.class,listener);
+    }
+
+    public void removeDetailListener(DetailListener listener){
+        listenerList.remove(DetailListener.class,listener);
     }
 }
