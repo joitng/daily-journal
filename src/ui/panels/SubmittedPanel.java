@@ -1,19 +1,26 @@
 package ui.panels;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import static com.sun.tools.internal.xjc.reader.Ring.add;
 
 public class SubmittedPanel {
     private JPanel submitPanel;
     private JFrame frame;
 
     public SubmittedPanel(JFrame curr){
-        // TODO: make prettier??? This is a good place to add a picture/graphix
 
         frame = curr;
         submitPanel = new JPanel();
+
+        submitPanel.setBackground(Color.pink);
 
         submitPanel.setBorder(BorderFactory.createTitledBorder("Your entry has been saved!"));
 
@@ -29,10 +36,12 @@ public class SubmittedPanel {
             }
         });
 
-        submitPanel.setBackground(Color.green);
+        ImageIcon image = new ImageIcon("have-a-nice-day.png");
+        JLabel label = new JLabel("", image, JLabel.CENTER);
+
         submitPanel.setLayout(new BorderLayout());
 
-        submitPanel.add(submitMsg,BorderLayout.CENTER);
+        submitPanel.add(label,BorderLayout.CENTER);
         submitPanel.add(menuBtn,BorderLayout.SOUTH);
     }
 
