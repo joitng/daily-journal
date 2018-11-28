@@ -17,14 +17,13 @@ public class CreateSpecialPanel {
     public CreateSpecialPanel(JFrame curr){
 
         // TODO: If possible, character counter
-        // TODO: pop-up screens for character counter & no input
 
         frame = curr;
 
         specPanel = new JPanel();
         specPanel.setBackground(Color.yellow);
 
-        specPanel.setBorder(BorderFactory.createTitledBorder("Spill the beans!"));
+        specPanel.setBorder(BorderFactory.createTitledBorder("Spill the beans! Write a special entry"));
 
         JTextField nameField = new JTextField(30);
         JTextField tag = new JTextField(30);
@@ -40,15 +39,21 @@ public class CreateSpecialPanel {
             public void actionPerformed(ActionEvent e) {
                 String title = nameField.getText();
                 String entry = entryArea.getText();
-                journal = new SpecialEntry(title,entry);
-                journal.setTag(tag.getText());
-                DailyJournal dj = journal.getDj();
-                dj.addEntry(journal);
-                dj.saveEntries("savedentries.txt");
+                journal = new SpecialEntry(title, entry);
+                if(journal.checkLength(entry)){
+                    JOptionPane.showMessageDialog(null,"Your entry was too long! Please try again.");
+                }
+                else {
+                    journal.setTag(tag.getText());
+                    DailyJournal dj = journal.getDj();
+                    dj.addEntry(journal);
+                    dj.saveEntries("savedentries.txt");
 
-                frame.remove(specPanel);
-                frame.setContentPane(new SubmittedPanel(frame).getPanel());
-                frame.setVisible(true);
+                    frame.remove(specPanel);
+                    frame.setContentPane(new SubmittedPanel(frame).getPanel());
+                    frame.setVisible(true);
+                }
+
             }
         });
 

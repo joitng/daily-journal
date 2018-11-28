@@ -15,13 +15,12 @@ public class CreateRegularPanel {
 
     public CreateRegularPanel(JFrame curr){
         // TODO: If possible, character counter
-        // TODO: pop-up screens for character counter & no input
 
         frame = curr;
 
         regPanel = new JPanel();
 
-        regPanel.setBorder(BorderFactory.createTitledBorder("Tell me about your day!"));
+        regPanel.setBorder(BorderFactory.createTitledBorder("Tell me about your day! Write a journal entry"));
 
         JTextField nameField = new JTextField(30);
         JTextArea entryArea = new JTextArea(15,30);
@@ -36,14 +35,19 @@ public class CreateRegularPanel {
                 String title = nameField.getText();
                 String entry = entryArea.getText();
                 journal = new JournalEntry(title,entry);
-                DailyJournal dj = journal.getDj();
-                dj.addEntry(journal);
-                dj.saveEntries("savedentries.txt");
 
-                frame.remove(regPanel);
-                frame.setContentPane(new SubmittedPanel(frame).getPanel());
-                frame.setVisible(true);
+                if(journal.checkLength(entry)){
+                    JOptionPane.showMessageDialog(null,"Your entry was too long! Please try again.");
+                }
+                else {
+                    DailyJournal dj = journal.getDj();
+                    dj.addEntry(journal);
+                    dj.saveEntries("savedentries.txt");
 
+                    frame.remove(regPanel);
+                    frame.setContentPane(new SubmittedPanel(frame).getPanel());
+                    frame.setVisible(true);
+                }
             }
         });
 
