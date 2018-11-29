@@ -43,7 +43,7 @@ public class ViewSpecialPanel {
 
                     }
                 } catch (NoSuchTagException e) {
-                    textArea.append("That tag doesn't exist!");
+                     JOptionPane.showMessageDialog(null,"That tag doesn't exist!");
                 }
 
             }

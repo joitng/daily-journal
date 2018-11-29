@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -83,7 +85,10 @@ public class StartPanel {
                 dj.loadEntries("savedentries.txt");
                 ArrayList<Entry> allEntries = dj.getAllEntries();
                 Entry mostRecent = allEntries.get(0);
-                JOptionPane.showMessageDialog(null,mostRecent.getEntry());
+                DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+                String strDate = dateFormat.format(mostRecent.getDate());
+                String entry = strDate+"\n"+mostRecent.getTitle()+"\n"+mostRecent.getEntry();
+                JOptionPane.showMessageDialog(null,entry);
             }
         });
 
